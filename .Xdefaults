@@ -1,0 +1,161 @@
+Aterm.cutchars: `"'()*,;<>[]{|}"
+Rxvt.cutchars: `"'()*,;<>[]{|}"
+XTerm.cutchars: `"'()*,;<>[]{|}"
+URxvt.cutchars: `"'()*,;<>[]{|}"
+
+!URXVT CONFIG
+
+URxvt.letterSpace: -1
+URxvt.font: xft:Hack:pixelsize=14:antialias=true
+URxvt.boldFont: xft:Hack:bold:pixelsize=14:antialias=true
+URxvt.italicFont: xft:Hack:italic:pixelsize=14:antialias=true
+URxvt.boldItalicFont: xft:Hack:italic:bold:pixelsize=14:antialias=true
+
+!URxvt.dynamicColors: on
+URxvt.urgentOnBell: false
+
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: 1
+
+URxvt.borderless: false
+URxvt.internalBorder: 0
+URxvt.externalBorder: 0
+
+URxvt.saveLines: 100000
+URxvt.scrollBar: false
+
+!URxvt.fading: 1
+!URxvt.fadeColor: black
+!URxvt.tintColor: pink
+
+URxvt.transparent: true
+URxvt.shading: 1
+
+! --- special colors ---
+
+*background: #171717
+*foreground: #ffffff
+
+! --- standard colors ---
+
+! black
+*color0: #171717
+
+! bright_black
+*color8: #3b3b3b
+
+! red
+*color1: #db512c
+
+! bright_red
+*color9: #e7927a
+
+! green
+*color2: #33d84d
+
+! bright_green
+*color10: #81e38e
+
+! yellow
+*color3: #bad82c
+
+! bright_yellow
+*color11: #d2e37a
+
+! blue
+*color4: #552fd4
+
+! bright_blue
+*color12: #967ddf
+
+! magenta
+*color5: #db2fb3
+
+! bright_magenta
+*color13: #e77dcb
+
+! cyan
+*color6: #33b6d4
+
+! bright_cyan
+*color14: #81cedf
+
+! white
+*color7: #eeeeee
+
+! bright_white
+*color15: #ffffff
+
+!---end colors
+
+
+*customization: -color
+XTerm*termName:  xterm-256color
+
+XTerm*faceName: Bitstream Hack Sans Mono:pixelsize=13
+XTerm*faceNameDoubleSize: Bitstream Hack Sans Mono:pixelsize=14
+XTerm*faceSize: 14
+XTerm*background: #171717
+XTerm*foreground: #ffffff
+XTerm*bellIsUrgent: true
+XTerm*showBlinkAsBold: true
+XTerm*saveLines: 100000
+XTerm*scrollBar: false
+XTerm*externalBorder: 0
+XTerm*metaSendsEscape: true
+XTerm*altSendsEscape: false
+XTerm*omitTranslation: fullscreen
+XTerm*fullscreen: never
+XTerm*utf8: 1
+XTerm*eightBitInput: true
+XTerm*eightBitControl: false
+XTerm*eightBitOutput: true
+XTerm*on2Clicks: word
+XTerm*on3Clicks: regex [^ \n<>]+ 
+XTerm*on4Clicks: line
+XTerm*on5Clicks: all
+
+! black
+XTerm*color0: #171717
+! bright_black
+XTerm*color8: #3b3b3b
+! red
+XTerm*color1: #db512c
+! bright_red
+XTerm*color9: #e7927a
+! green
+XTerm*color2: #33d84d
+! bright_green
+XTerm*color10: #81e38e
+! yellow
+XTerm*color3: #bad82c
+! bright_yellow
+XTerm*color11: #d2e37a
+! blue
+XTerm*color4: #552fd4
+! bright_blue
+XTerm*color12: #967ddf
+! magenta
+XTerm*color5: #db2fb3
+! bright_magenta
+XTerm*color13: #e77dcb
+! cyan
+XTerm*color6: #33b6d4
+! bright_cyan
+XTerm*color14: #81cedf
+! white
+XTerm*color7: #eeeeee
+! bright_white
+XTerm*color15: #ffffff
+
+!---end xterm
+
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: #333333, #e18700, #e18700
+rofi.color-normal: #ffa216, #000000, #e18700, #e18700, #000000
+rofi.color-active: #e18700, #000000, #e18700, #e18700, #000000
+rofi.color-urgent: #e18700, #000000, #e18700, #e18700, #000000

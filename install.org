@@ -1,0 +1,155 @@
+* Debian stretch installation
+- Debian netinstall 9.4.0 cd
+- Install Gnome 3 desktop
+- Enter the root account in a terminal by 'su'.
+** Graphics card
+*** Basic Support
+For the AMD Radeon R9 390 GPU.
+Add non-free to sources.
+#+BEGIN_SRC sh
+  apt-get install firmware-amd-graphics
+#+END_SRC
+*** Better Support
+- https://wiki.debian.org/AtiHowTo
+- amdgpu driver
+** Packages
+*** Base Tools, Languages
+- sudo
+- texlive-full
+- racket
+- ocaml
+- opam
+- haskell-platform
+- clang
+- llvm
+- gcc
+- g++
+- gdb
+- valgrind
+- gimp
+- inkscape
+- mpv
+- ffmpeg
+- feh
+- emacs25
+- vim
+- make
+- cmake
+- git
+- unzip
+- rar
+- unrar
+- p7zip-full
+- chrome
+- fonts-hack-ttf
+- rxvt-unicode
+*** DJVU Tools
+- djvlibre-bin
+- ghostscript
+** OCaml
+Don't do this within emacs, tuareg won't install while emacs running.
+- Add the line to .profile
+- opam init
+- opam install core merlin tuareg ocp-indent utop
+** Gnome
+*** Add-ons to install
+- Dash to panel :: Way better bar, more like legacy Gnome
+- Openweather :: Weather status in the bar
+- Topicons plus :: Moves tray icons into the bar
+- Workspace Indicator :: Shows current workspace in bar and allows switch
+*** Gnome Tweak Tool
+**** Appearance
+- Global Dark Theme :: On
+**** Desktop
+- Icons on Desktop :: On
+**** Keyboard and Mouse
+- Acceleration profile :: Flat
+- Middle click paste :: On
+**** Startup applications
+- GNU Emacs
+**** Top bar
+- Show Application Menu :: On
+- Clock show date :: On
+- Clock show seconds :: On
+**** Windows
+- Attached Modal Dialogs :: On
+- Focus Mode :: Click
+- Titlebar Actions Double Click :: Toggle Maximize
+- Titlebar Actions Middle Click :: Minimize
+- Titlebar Actions Secondary Click :: Menu
+
+**** Workspaces
+- Workspace Creation :: Static
+- Number of Workspaces :: 4
+*** Fix tray icons:
+- https://extensions.gnome.org/extension/1031/topicons/
+*** Emacs gripes...
+- Gnome has a bunch of super key shortcuts which are incompatible
+- To fix this go to the 'Gnome Settings->Keyboard' and change super key shortcuts to super+shift+...
+- We also need to do some special fixes...
+**** Message tray - (Unblock s-m)
+#+BEGIN_SRC sh
+  gsettings set org.gnome.shell.keybindings toggle-message-tray "[]"
+#+END_SRC
+*** Restore sane maximize, minimize buttons
+#+BEGIN_SRC sh
+  gsettings set org.gnome.desktop.wm.preferences button-layout "maximize,minimize:close"
+#+END_SRC
+** Documents
+*** DJVU2PDF Converter
+- http://0x2a.at/s/projects/djvu2pdf
+- sudo apt install ./djvu2pdf_*.deb
+** Emacs client/daemon
+We can get near instantaneous emacs startup by running the daemon in the background at all times.
+- Achieved by launching the daemon using systemd
+- Replace emacs startup files with a different command
+- Change the EDITOR and VISUAL shell variables.
+- Mostly taken from http://blog.refu.co/?p=1296
+- Extra configuration is in the config.org file
+*** systemd setup
+**** configuration - emacs.service
+- Copy this to /etc/systemd/system/emacs@.service
+#+BEGIN_SRC sh
+  [Unit]
+  Description=Emacs: the extensible, self-documenting text editor
+
+  [Service]
+  Type=forking
+  ExecStart=/usr/bin/emacs --daemon
+  ExecStop=/usr/bin/emacsclient --eval "(progn (setq kill-emacs-hook 'nil) (kill-emacs))"
+  Restart=always
+  User=%i
+  WorkingDirectory=%h
+
+  [Install]
+  WantedBy=multi-user.target
+#+END_SRC
+**** commands to run
+List of commands
+- enable :: Service starts from startup at next boot
+- disable :: Undo an enable
+- start :: Starts the unit using the execution start command
+- stop :: Stops the unit using the execution stop command
+- status :: Returns the status of the unit
+Replace the /COMMAND/ value in this line to run these
+#+BEGIN_SRC sh
+  sudo systemctl COMMAND emacs@"$(whoami)".service
+#+END_SRC
+*** Replacement .desktop file for emacs
+- Create emacs.desktop in ~/.local/share/applications/
+#+BEGIN_SRC sh
+  [Desktop Entry]
+  Type=Application
+  Terminal=false
+  Name=Emacs
+  Comment=GNU Emacs, client launcher
+  Exec=/usr/bin/emacsclient -c -a emacs
+  Icon=emacs
+  Categories=Utility;Development;TextEditor
+  Keywords=Text;Editor
+#+END_SRC
+*** .profile and .bashrc
+#+BEGIN_SRC sh
+  export EDITOR="emacsclient -t"
+  export VISUAL="emacsclient -c -a emacs"
+#+END_SRC
