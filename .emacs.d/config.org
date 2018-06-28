@@ -13,6 +13,46 @@
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
   (global-set-key (kbd "C-c r") 'config-reload)
 #+END_SRC
+** byte compilation
+- Note that using a daemon/client setup is still much faster!
+*** Function to byte compile config
+#+BEGIN_SRC emacs-lisp
+  (defun byte-compile-emacs-config-dir ()
+    "Byte-compile all of the emacs config directory"
+    (interactive)
+    (byte-recompile-directory user-emacs-directory 0))
+#+END_SRC
+*** Avoid stale .elc files
+#+BEGIN_SRC emacs-lisp
+  (defun remove-elc-on-save ()
+    "If saving an elisp file, the invalid .elc will be removed"
+    (add-hook 'after-save-hook
+              (lambda ()
+                (if (file-exists-p (concat buffer-file-name "c"))
+                    (delete-file (concat buffer-file-name "c"))))
+              nil
+              t))
+
+  (add-hook 'emacs-lisp-mode-hook 'remove-elc-on-save)
+#+END_SRC
+** emacs client
+*** Fix dashboard plugin
+#+BEGIN_SRC emacs-lisp
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+#+END_SRC
+*** Fix spacemacs-dark theme
+#+BEGIN_SRC emacs-lisp
+  (defun my/load-theme (frame)
+    (select-frame frame)
+    (load-theme 'spacemacs-dark t))
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions #'my/load-theme)
+    (load-theme 'spacemacs-dark t))
+#+END_SRC
+*** Fix default directory
+#+BEGIN_SRC emacs-lisp
+  (setq default-directory (concat (getenv "HOME") "/"))
+#+END_SRC
 * Functions
 ** copy-whole-line
 #+BEGIN_SRC emacs-lisp
@@ -335,7 +375,7 @@
   (when window-system (global-hl-line-mode t))
   (when window-system (global-prettify-symbols-mode t))
 #+END_SRC
-* Programming Only
+* Programming
 #+BEGIN_SRC emacs-lisp
   (use-package linum-relative
     :ensure t
@@ -343,7 +383,7 @@
     (setq linum-relative-current-symbol "")
     (add-hook 'prog-mode-hook 'linum-relative-mode))
 #+END_SRC
-* Language Specific
+* Programming Language
 ** C
 #+BEGIN_SRC emacs-lisp
   (require 'cc-mode)
@@ -429,43 +469,31 @@
     :ensure t
     :init)
 #+END_SRC
-* Byte compilation
-- Note that using a daemon/client setup is still much faster!
-** Function to byte compile config
+* Languages
+** Latin
+*** Custom input method "lingua-latina"
 #+BEGIN_SRC emacs-lisp
-  (defun byte-compile-emacs-config-dir ()
-    "Byte-compile all of the emacs config directory"
-    (interactive)
-    (byte-recompile-directory user-emacs-directory 0))
-#+END_SRC
-** Avoid stale .elc files
-#+BEGIN_SRC emacs-lisp
-  (defun remove-elc-on-save ()
-    "If saving an elisp file, the invalid .elc will be removed"
-    (add-hook 'after-save-hook
-              (lambda ()
-                (if (file-exists-p (concat buffer-file-name "c"))
-                    (delete-file (concat buffer-file-name "c"))))
-              nil
-              t))
+  ;; A custom input method for typing in latin.
+  ;; Use "M-x set-input-method lingua-latina" to switch to this input method.
+  (quail-define-package
+   "lingua-latina""latin" "Lingua Latina" t
+   "A custom postfix input method for the latin language. Includes missing y macron used in some latin texts."
+   nil t nil nil nil nil nil nil nil nil t)
 
-  (add-hook 'emacs-lisp-mode-hook 'remove-elc-on-save)
-#+END_SRC
-* Emacs Client
-** Fix dashboard plugin
-#+BEGIN_SRC emacs-lisp
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-#+END_SRC
-** Fix spacemacs-dark theme
-#+BEGIN_SRC emacs-lisp
-  (defun my/load-theme (frame)
-    (select-frame frame)
-    (load-theme 'spacemacs-dark t))
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions #'my/load-theme)
-    (load-theme 'spacemacs-dark t))
-#+END_SRC
-** Fix default directory
-#+BEGIN_SRC emacs-lisp
-  (setq default-directory (concat (getenv "HOME") "/"))
+  (quail-define-rules
+   ;; lowercase macron
+   ("a/" ?ā)
+   ("e/" ?ē)
+   ("i/" ?ī)
+   ("o/" ?ō)
+   ("u/" ?ū)
+   ("y/" ?ȳ)
+   ;; uppercase macron
+   ("A/" ?Ā)
+   ("E/" ?Ē)
+   ("I/" ?Ī)
+   ("O/" ?Ō)
+   ("U/" ?Ū)
+   ("Y/" ?Ȳ)
+  )
 #+END_SRC
