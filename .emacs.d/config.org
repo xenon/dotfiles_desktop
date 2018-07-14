@@ -1,3 +1,9 @@
+* Notes
+To make an operating system specific configuration use:
+#+BEGIN_SRC emacs-lisp
+  ;;(when (eq system-type 'gnu/linux) ...for gnu/linux...)
+  ;; (when (eq system-type 'windows-nt) ...for windows...)
+#+END_SRC
 * Configuration
 ** edit
 #+BEGIN_SRC emacs-lisp
@@ -53,6 +59,10 @@
 #+BEGIN_SRC emacs-lisp
   (setq default-directory (concat (getenv "HOME") "/"))
 #+END_SRC
+*** Fix bookmarks not saving
+#+BEGIN_SRC emacs-lisp
+  (setq bookmark-save-flag 1)
+#+END_SRC
 * Functions
 ** copy-whole-line
 #+BEGIN_SRC emacs-lisp
@@ -79,7 +89,7 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 ** backups
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (setq make-backup-file nil)
   (setq make-backup-files nil)
   (setq auto-save-default nil)
@@ -121,8 +131,13 @@
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
 #+END_SRC
+** indentation
+#+BEGIN_SRC emacs-lisp
+;;  (setq-default indicate-empty-lines f)
+;; (whitespace-mode) ;; Only used for programming, under "Programming" section'
+#+END_SRC
 ** menu
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
@@ -138,7 +153,7 @@
   (setq select-enable-clipboard t)
 #+END_SRC
 ** scrolling
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
 #+END_SRC
 ** show lines and columns modeline
@@ -149,6 +164,13 @@
 ** subword camelcase
 #+BEGIN_SRC emacs-lisp
   (global-subword-mode 1)
+#+END_SRC
+** whitespace
+#+BEGIN_SRC emacs-lisp
+  (setq show-trailing-whitespace t)
+
+  ;; delete useless whitespace on saving any file
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** window splitting
 #+BEGIN_SRC emacs-lisp
@@ -277,6 +299,14 @@
 ;;    :init)
 ;;  (evil-mode 1)
 #+END_SRC
+** flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+  ;; disable annoying elisp comment "warnings"
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+#+END_SRC
 ** hungry-delete
 #+BEGIN_SRC emacs-lisp
   ;;(use-package hungry-delete
@@ -295,10 +325,11 @@
 #+END_SRC
 ** pdfview
 #+BEGIN_SRC emacs-lisp
-    (use-package pdf-tools
-      :ensure t
-      :init
-      (pdf-tools-install))
+  (unless (eq system-type 'windows-nt)
+      (use-package pdf-tools
+        :ensure t
+        :init
+        (pdf-tools-install)))
 #+END_SRC
 ** rainbow
 #+BEGIN_SRC emacs-lisp
@@ -351,7 +382,7 @@
     ("s-h" . symon-mode))
 #+END_SRC
 ** which-key
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
     :init
@@ -376,6 +407,7 @@
   (when window-system (global-prettify-symbols-mode t))
 #+END_SRC
 * Programming
+** Relative line numbering
 #+BEGIN_SRC emacs-lisp
   (use-package linum-relative
     :ensure t
@@ -429,7 +461,7 @@
 
   (load "/home/aka/.opam/system/share/emacs/site-lisp/tuareg-site-file")
   (add-hook 'tuareg-mode-hook 'merlin-mode t)
-   
+
     ;; Make company aware of merlin and hook it into merlin
     (with-eval-after-load 'company
       (add-to-list 'company-backends 'merlin-company-backend))
@@ -515,11 +547,9 @@
    ("\\star" ?⋆)
    ("\\proportional" ?∝)
    ("\\sine" ?∿)
-   
-   
    ;; comparison
    ("=def" ?≝)
-   ("~=" ?≈)
+   ("=~" ?≈)
    ("=/" ?≠)
    ("==" ?≡) ;; identical
    ("==/" ?≢) ;; not identical
@@ -529,14 +559,14 @@
    ("\\dot" ?•)
    ("\\times" ?×)
    ("\\divide" ?÷)
-   
+
    ;; special function
    ("\\lfloor" ?⌊)
    ("\\rfloor" ?⌋)
    ("\\lceil" ?⌈)
    ("\\rceil" ?⌉)
    ("\\sqrt" ?√)
-   
+
    ;; logical
    ("\\negate" ?¬)
    ("\\and" ?∧)
@@ -551,7 +581,7 @@
    ("\\notproves" ?⊬)
    ("\\true" ?⊨)
    ("\\nottrue" ?⊭)
-   
+
    ;; sets
    ("\\emptyset" ?∅)
    ("\\elementof" ?∈)
@@ -611,7 +641,7 @@
    ("^x" ?ˣ)
    ("^y" ?ʸ)
    ("^z" ?ᶻ)
-   
+
    ;; subscripts (b,c,d,f,g,q,w,y,z missing)
    ("_+" ?₊)
    ("_-" ?₋)
