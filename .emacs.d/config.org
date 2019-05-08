@@ -307,6 +307,12 @@ To make an operating system specific configuration use:
   ;; disable annoying elisp comment "warnings"
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
 #+END_SRC
+** haskell-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-mode
+    :ensure t
+    :init)
+#+END_SRC
 ** hungry-delete
 #+BEGIN_SRC emacs-lisp
   ;;(use-package hungry-delete

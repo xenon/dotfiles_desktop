@@ -153,3 +153,25 @@ Replace the /COMMAND/ value in this line to run these
   export EDITOR="emacsclient -t"
   export VISUAL="emacsclient -c -a emacs"
 #+END_SRC
+** Waterfox Browser
+We can install waterfox fairly normally the hardest part is making a .desktop entry!
+- First download the tar from the waterfox website and extract it
+- There should be a folder called 'waterfox' with the executable within it.
+- Now perform the following:
+#+BEGIN_SRC sh
+  sudo mv waterfox /opt/waterfox
+#+END_SRC
+*** .desktop file for waterfox
+- Create waterfox.desktop in ~/.local/share/applications/
+#+BEGIN_SRC sh
+  [Desktop Entry]
+  Type=Application
+  Terminal=false
+  Name=Waterfox
+  Comment=Waterfox browser
+  Exec=/opt/waterfox/waterfox
+  Icon=/opt/waterfox/browser/icons/mozicon128.png
+  Terminal=false
+  Categories=GNOME;GTK;Network;WebBrowser
+  Keywords=Browser;Web
+#+END_SRC
