@@ -1,22 +1,15 @@
-* Debian stretch installation
-- Debian netinstall 9.4.0 cd
-- Install Gnome 3 desktop
-- Enter the root account in a terminal by 'su'.
+* Ubuntu 18.04 installation
+- Ubuntu 18.04 cd standard graphical install
+- Minimal install without games and office software
 ** Graphics card
-*** Basic Support
-For the AMD Radeon R9 390 GPU.
-Add non-free to sources.
-#+BEGIN_SRC sh
-  apt-get install firmware-amd-graphics
-#+END_SRC
-*** Better Support
-- https://wiki.debian.org/AtiHowTo
-- amdgpu driver
+- AMD Radeon R9 390 GPU.
+Ubuntu 18.04 has a kernel with updated amdgpu support which now includes R9 390
 ** Packages
-*** Base Tools, Languages
-- sudo
-- texlive-full
+*** Gnome Tools
+- gnome-tweak-tool
+*** Programming/Markup Languages
 - racket
+- smlnj
 - ocaml
 - opam
 - haskell-platform
@@ -26,24 +19,38 @@ Add non-free to sources.
 - g++
 - gdb
 - valgrind
-- gimp
-- inkscape
-- mpv
-- ffmpeg
-- feh
-- emacs25
-- vim
 - make
 - cmake
 - git
+- texlive-full
+*** Graphics/Music Editing
+- gimp
+- inkscape
+- krita
+- musescore
+*** Media
+- mpv
+- ffmpeg
+- feh
+*** Misc Tools
+- vim
 - unzip
 - rar
 - unrar
 - p7zip-full
-- chrome
 - fonts-hack-ttf
+- unifont
+- ttf-unifont
 - rxvt-unicode
-*** DJVU Tools
+*** Browsers
+- chromium-browser
+- lynx
+*** Emacs
+- emacs25
+- autoconf
+- automake
+*** Books
+- calibre
 - djvlibre-bin
 - ghostscript
 ** OCaml

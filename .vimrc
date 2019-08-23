@@ -47,6 +47,9 @@ set mouse=a
 au WinEnter * setlocal cursorline
 au WinLeave * setlocal nocursorline
 
+set guifont=Hack\ 13
+colorscheme slate
+
 set showmode
 set shortmess+=I
 
@@ -62,6 +65,23 @@ set splitright
 
 " Remove annoying underscore/highlights
 nnoremap H :set cursorline! <CR>
+
+" Special characters
+function! SpecialCharacters()
+	imap --a ā
+	imap --e ē
+	imap --i ī
+	imap --o ō
+	imap --u ū
+	imap --y ȳ
+	imap --A Ā
+	imap --E Ē
+	imap --I Ī
+	imap --O Ō
+	imap --U Ū
+	imap --Y Ȳ
+endfunction
+nnoremap <C-l> :call SpecialCharacters()<CR>
 
 " OCaml
 "let g:opamshare = substitute(system('opam config var share'),'\n$', '', '''')
