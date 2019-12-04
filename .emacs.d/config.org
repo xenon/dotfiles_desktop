@@ -1,3 +1,13 @@
+* Set theme and font
+** Theme
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook (lambda () (load-theme 'spacemacs-dark)))
+#+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist
+			   '(font . "DejaVu Sans Mono-11"))
+#+END_SRC
 * Configuration Functions
 ** edit
 #+BEGIN_SRC emacs-lisp
