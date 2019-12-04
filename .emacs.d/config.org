@@ -244,13 +244,13 @@
 #+END_SRC
 ** dashboard
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package dashboard
-  ;;   :ensure t
-  ;;   :config
-  ;;   (dashboard-setup-startup-hook)
-  ;;   (setq dashboard-items '((recents . 16)))
-  ;;   (setq dashboard-startup-banner 'logo)
-  ;;   (setq dashboard-banner-logo-title "Alexander's GNU Emacs"))
+  (use-package dashboard
+	:ensure t
+	:config
+	(dashboard-setup-startup-hook)
+	(setq dashboard-items '((recents . 16)))
+	(setq dashboard-startup-banner 'logo)
+	(setq dashboard-banner-logo-title "Alexander's GNU Emacs"))
 #+END_SRC
 ** diminish
 #+BEGIN_SRC emacs-lisp
