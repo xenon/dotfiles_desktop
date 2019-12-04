@@ -1,10 +1,4 @@
-* Notes
-To make an operating system specific configuration use:
-#+BEGIN_SRC emacs-lisp
-  ;;(when (eq system-type 'gnu/linux) ...for gnu/linux...)
-  ;; (when (eq system-type 'windows-nt) ...for windows...)
-#+END_SRC
-* Configuration
+* Configuration Functions
 ** edit
 #+BEGIN_SRC emacs-lisp
   (defun config-visit ()
@@ -44,7 +38,7 @@ To make an operating system specific configuration use:
 ** emacs client
 *** Fix dashboard plugin
 #+BEGIN_SRC emacs-lisp
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+;;  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 #+END_SRC
 *** Fix spacemacs-dark theme
 #+BEGIN_SRC emacs-lisp
@@ -63,7 +57,7 @@ To make an operating system specific configuration use:
 #+BEGIN_SRC emacs-lisp
   (setq bookmark-save-flag 1)
 #+END_SRC
-* Functions
+* Editor Functions
 ** copy-whole-line
 #+BEGIN_SRC emacs-lisp
   (defun copy-whole-line ()
@@ -83,7 +77,7 @@ To make an operating system specific configuration use:
     (kill-word 1))
   (global-set-key (kbd "C-c w w") 'kill-whole-word)
 #+END_SRC
-* General
+* General Settings
 ** aliases
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -116,11 +110,11 @@ To make an operating system specific configuration use:
 #+END_SRC
 ** electric pairs
 #+BEGIN_SRC emacs-lisp
-    (setq electric-pair-pairs '(
-                                (?\( . ?\))
-                                (?\[ . ?\))
-                                ))
-    (electric-pair-mode t)
+  (setq electric-pair-pairs '(
+                              (?\( . ?\))
+                              (?\[ . ?\))
+                              ))
+  (electric-pair-mode t)
 #+END_SRC
 ** encoding/language
 #+BEGIN_SRC emacs-lisp
@@ -130,11 +124,6 @@ To make an operating system specific configuration use:
   (set-keyboard-coding-system 'utf-8)
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
-#+END_SRC
-** indentation
-#+BEGIN_SRC emacs-lisp
-;;  (setq-default indicate-empty-lines f)
-;; (whitespace-mode) ;; Only used for programming, under "Programming" section'
 #+END_SRC
 ** menu
 #+BEGIN_SRC emacs-lisp
@@ -167,8 +156,7 @@ To make an operating system specific configuration use:
 #+END_SRC
 ** whitespace
 #+BEGIN_SRC emacs-lisp
-  (setq show-trailing-whitespace t)
-
+  (setq show-trailing-whitespace 't)
   ;; delete useless whitespace on saving any file
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
@@ -202,14 +190,9 @@ To make an operating system specific configuration use:
   (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 #+END_SRC
 * Org mode
-** agenda
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (setq org-agenda-files (list "~/Documents/journals/agenda.org"))
-#+END_SRC
 ** basic config
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  (setq org-qsrc-window-setup 'current-window)
   (add-to-list 'org-structure-template-alist
                '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC
@@ -226,11 +209,6 @@ To make an operating system specific configuration use:
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c '") 'org-edit-src-code)
 #+END_SRC
-** htmlize
-#+BEGIN_SRC emacs-lisp
-  (use-package htmlize
-    :ensure t)
-#+END_SRC
 ** line wrap
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
@@ -241,7 +219,7 @@ To make an operating system specific configuration use:
     :ensure t
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-  (setq org-bullets-bullet-list '("Ⅰ" "Ⅱ" "Ⅲ" "Ⅳ" "Ⅴ" "Ⅵ" "Ⅶ" "Ⅷ" "Ⅸ" "Ⅹ" "Ⅺ" "Ⅻ"))
+  (setq org-bullets-bullet-list '("1" "2" "3" "4" "5" "6" "7" "8" "9"))
 #+END_SRC
 * Packages
 ** avy
@@ -266,14 +244,13 @@ To make an operating system specific configuration use:
 #+END_SRC
 ** dashboard
 #+BEGIN_SRC emacs-lisp
-  (use-package dashboard
-    :ensure t
-    :config
-    (dashboard-setup-startup-hook)
-    (setq dashboard-items '((agenda . 10)
-                            (recents . 5)))
-    (setq dashboard-startup-banner 'logo)
-    (setq dashboard-banner-logo-title "aka's GNU Emacs"))
+  ;; (use-package dashboard
+  ;;   :ensure t
+  ;;   :config
+  ;;   (dashboard-setup-startup-hook)
+  ;;   (setq dashboard-items '((recents . 16)))
+  ;;   (setq dashboard-startup-banner 'logo)
+  ;;   (setq dashboard-banner-logo-title "Alexander's GNU Emacs"))
 #+END_SRC
 ** diminish
 #+BEGIN_SRC emacs-lisp
@@ -281,16 +258,8 @@ To make an operating system specific configuration use:
     :ensure t
     :init
     (diminish 'which-key-mode)
-    (diminish 'hungry-delete-mode)
     (diminish 'company-mode)
-    (diminish 'subword-mode)
-    (diminish 'rainbow-mode))
-#+END_SRC
-** djvu
-#+BEGIN_SRC emacs-lisp
-  (use-package djvu
-    :ensure t
-    :init)
+    (diminish 'subword-mode))
 #+END_SRC
 ** evil
 #+BEGIN_SRC emacs-lisp
@@ -313,12 +282,6 @@ To make an operating system specific configuration use:
     :ensure t
     :init)
 #+END_SRC
-** hungry-delete
-#+BEGIN_SRC emacs-lisp
-  ;;(use-package hungry-delete
-  ;;  :ensure t
-  ;;  :config (global-hungry-delete-mode))
-#+END_SRC
 ** magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -329,6 +292,12 @@ To make an operating system specific configuration use:
     :bind
     ("M-g" . magit-status))
 #+END_SRC
+** page-break-lines
+#+BEGIN_SRC emacs-lisp
+  (use-package page-break-lines
+    :ensure t
+    :init)
+#+END_SRC
 ** pdfview
 #+BEGIN_SRC emacs-lisp
   (unless (eq system-type 'windows-nt)
@@ -336,12 +305,6 @@ To make an operating system specific configuration use:
         :ensure t
         :init
         (pdf-tools-install)))
-#+END_SRC
-** rainbow
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :init (rainbow-mode 1))
 #+END_SRC
 ** rainbow delimiters
 #+BEGIN_SRC emacs-lisp
@@ -380,13 +343,6 @@ To make an operating system specific configuration use:
     :bind
     ([remap other-window] . switch-window))
 #+END_SRC
-** symon
-#+BEGIN_SRC emacs-lisp
-  (use-package symon
-    :ensure t
-    :bind
-    ("s-h" . symon-mode))
-#+END_SRC
 ** which-key
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
@@ -413,13 +369,19 @@ To make an operating system specific configuration use:
   (when window-system (global-prettify-symbols-mode t))
 #+END_SRC
 * Programming
+** Compilation
+#+BEGIN_SRC emacs-lisp
+  (setq compilation-scroll-output t)
+#+END_SRC
 ** Relative line numbering
 #+BEGIN_SRC emacs-lisp
   (use-package linum-relative
     :ensure t
     :config
     (setq linum-relative-current-symbol "")
-    (add-hook 'prog-mode-hook 'linum-relative-mode))
+   ;;(add-hook 'prog-mode-hook 'linum-relative-mode)
+    (linum-on)
+    )
 #+END_SRC
 * Programming Language
 ** C
@@ -429,7 +391,9 @@ To make an operating system specific configuration use:
                 tab-width 4
                 indent-tabs-mode t)
 
-  (setq c-default-style "k&r")
+  (setq c-default-style "linux")
+
+  (add-to-list 'c-mode-common-hook (lambda () (setq c-syntactic-indentation nil)))
 
   ;;(define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
 #+END_SRC
@@ -494,18 +458,18 @@ To make an operating system specific configuration use:
 #+END_SRC
 ** Racket
 #+BEGIN_SRC emacs-lisp
-  (use-package racket-mode
-    :ensure t
-    :init)
+  ;;(use-package racket-mode
+  ;;  :ensure t
+  ;;  :init)
 
-  (add-hook 'racket-mode-hook
-            (lambda ()
-              (define-key racket-mode-map (kbd "C-c r") 'racket-run)))
+;;  (add-hook 'racket-mode-hook
+;;            (lambda ()
+;;              (define-key racket-mode-map (kbd "C-c r") 'racket-run)))
 
   ;; Scribble mode
-  (use-package scribble-mode
-    :ensure t
-    :init)
+;;  (use-package scribble-mode
+;;    :ensure t
+;;    :init)
 #+END_SRC
 * Languages
 ** Latin
